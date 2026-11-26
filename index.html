@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Game Penjumlahan - Matematika SD Level 1–9</title>
+  <style>
+    /* =====================================================================
+       RESET & VARIABEL TEMA RAMAH ANAK SD (SERI GAME PENJUMLAHAN - INDIGO)
+       ===================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-outer: #e2e8f0;
+      --bg-app: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-soft: #64748b;
+
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --primary-light: #e0e7ff;
+      --primary-soft: #eef2ff;
+      --primary-border: #a5b4fc;
+
+      --emerald: #10b981;
+      --emerald-dark: #059669;
+      --emerald-light: #d1fae5;
+      --emerald-soft: #ecfdf5;
+
+      --amber: #f59e0b;
+      --amber-dark: #d97706;
+      --amber-light: #fef3c7;
+
+      --red: #ef4444;
+      --red-dark: #dc2626;
+      --red-light: #fee2e2;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background-color: var(--bg-outer);
+      color: var(--text-main);
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Kontainer Aplikasi Mobile-First Terpusat */
+    .app-shell {
+      max-width: 520px;
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      background: var(--bg-app);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+    }
+
+    /* =====================================================================
+       HEADER MINIMALIS & PEMILIH LEVEL 1–9
+       ===================================================================== */
+    .app-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 12px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 20;
+    }
+
+    .header-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #ffffff;
+      font-size: 21px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 3px 8px rgba(79, 70, 229, 0.28);
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-soft);
+      line-height: 1.2;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .level-picker-btn {
+      height: 34px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1.5px solid var(--primary-border);
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+
+    .level-picker-btn:active {
+      transform: scale(0.95);
+    }
+
+    .level-badge {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--primary-border);
+      white-space: nowrap;
+    }
+
+    .chal-header-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sound-btn,
+    .header-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+
+    .header-icon-btn {
+      background: var(--amber-light);
+      border-color: #fde68a;
+      color: #b45309;
+    }
+
+    .sound-btn:active,
+    .header-icon-btn:active {
+      transform: scale(0.92);
+    }
+
+    .sound-btn.muted {
+      color: var(--text-soft);
+      background: #f1f5f9;
+    }
+
+    /* =====================================================================
+       MODAL SAMBUTAN, PETUNJUK SESI MENGHAFAL & PILIH LEVEL
+       ===================================================================== */
+    .welcome-badge {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 12px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #4f46e5, #0284c7);
+      color: #ffffff;
+      font-size: 40px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 22px rgba(79, 70, 229, 0.28);
+    }
+
+    .guide-badge {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 10px;
+      border-radius: 16px;
+      background: var(--amber-light);
+      border: 2px solid #fde68a;
+      color: #d97706;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Strip Progress Bar Waktu Menghafal 30 Detik */
+    .timer-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 6px 10px;
+      flex-shrink: 0;
+    }
+
+    .timer-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      white-space: nowrap;
+      min-width: 66px;
+    }
+
+    .timer-label.warning {
+      color: #b45309;
+    }
+
+    .timer-track {
+      flex: 1;
+      height: 9px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .timer-fill {
+      height: 100%;
+      width: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #4f46e5, #10b981);
+      transition: width 0.1s linear, background 0.25s ease;
+    }
+
+    .timer-fill.warning {
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+    }
+
+    .ready-actions {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 8px;
+    }
+
+    .level-grid-modal {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 12px 0 14px;
+    }
+
+    .level-tile {
+      border-radius: 14px;
+      border: 2px solid var(--border);
+      background: #f8fafc;
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 0.12s ease, all 0.15s ease;
+    }
+
+    .level-tile:active:not(.locked) {
+      transform: scale(0.95);
+    }
+
+    .level-tile.unlocked {
+      background: #ffffff;
+      border-color: var(--primary-border);
+    }
+
+    .level-tile.completed {
+      background: var(--emerald-soft);
+      border-color: var(--emerald);
+    }
+
+    .level-tile.active {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      box-shadow: 0 3px 10px rgba(79, 70, 229, 0.18);
+    }
+
+    .level-tile.locked {
+      background: #f1f5f9;
+      border-color: #e2e8f0;
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .level-tile-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .level-tile.locked .level-tile-name {
+      color: #94a3b8;
+    }
+
+    .level-tile-stars {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-height: 15px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+
+    /* =====================================================================
+       AREA KONTEN UTAMA
+       ===================================================================== */
+    .main-viewport {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 10px 12px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .view-screen {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    /* =====================================================================
+       HALAMAN 1: MODE HAFALAN PENJUMLAHAN
+       ===================================================================== */
+    .memorize-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .table-heading {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .table-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .table-range {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      background: var(--primary-light);
+      padding: 2px 7px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .hide-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .hide-toggle-btn.active {
+      background: var(--amber-light);
+      border-color: var(--amber);
+      color: #92400e;
+    }
+
+    .hide-toggle-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Grid Kartu Penjumlahan (3 kolom x 3 baris untuk N+1 s.d. N+9) */
+    .fact-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .fact-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 5px;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .fact-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+    }
+
+    @keyframes cardBounce {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.06); }
+      70% { transform: scale(0.97); }
+      100% { transform: scale(1); }
+    }
+
+    .fact-card.bounce {
+      animation: cardBounce 0.32s ease-out;
+    }
+
+    .fact-expr {
+      font-size: clamp(15px, 4.3vw, 18.5px);
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      letter-spacing: -0.2px;
+    }
+
+    .fact-op {
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    .fact-ans {
+      color: var(--emerald-dark);
+      font-weight: 900;
+    }
+
+    .fact-ans.concealed {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 25px;
+      height: 23px;
+      padding: 0 5px;
+      border-radius: 7px;
+      background: var(--amber-light);
+      border: 1.5px dashed var(--amber);
+      color: #b45309;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    /* Kotak Visualisasi Konsep Penggabungan 2 Kelompok Titik */
+    .concept-box {
+      background: var(--surface);
+      border: 1.5px solid var(--primary-border);
+      border-radius: 14px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.06);
+    }
+
+    .concept-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .concept-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--primary-dark);
+      flex-shrink: 0;
+    }
+
+    .concept-sum-text {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dot-groups-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 28px;
+    }
+
+    .dot-cluster {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      max-width: 110px;
+      padding: 4px 7px;
+      border-radius: 9px;
+    }
+
+    .dot-cluster.group-a {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+    }
+
+    .dot-cluster.group-a .concept-dot {
+      background: var(--primary);
+    }
+
+    .dot-cluster.group-b {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+    }
+
+    .dot-cluster.group-b .concept-dot {
+      background: var(--emerald);
+    }
+
+    .concept-dot {
+      width: 6.5px;
+      height: 6.5px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .concept-plus-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: var(--amber-light);
+      border: 1px solid #fcd34d;
+      color: #b45309;
+      font-size: 13px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Tombol Aksi Utama Bawah */
+    .primary-cta-btn {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-shrink: 0;
+      box-shadow: 0 5px 14px rgba(79, 70, 229, 0.28);
+      transition: transform 0.12s ease, box-shadow 0.15s ease;
+    }
+
+    .primary-cta-btn:active {
+      transform: scale(0.97);
+    }
+
+    .primary-cta-btn.amber-cta {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      box-shadow: 0 5px 14px rgba(245, 158, 11, 0.3);
+    }
+
+    /* =====================================================================
+       HALAMAN 2: MODE TANTANGAN (5 SOAL)
+       ===================================================================== */
+    .challenge-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .back-memorize-btn {
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .back-memorize-btn:active {
+      transform: scale(0.95);
+    }
+
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .step-dot {
+      width: 22px;
+      height: 8px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      transition: all 0.2s ease;
+    }
+
+    .step-dot.current {
+      background: var(--primary);
+      width: 28px;
+    }
+
+    .step-dot.correct {
+      background: var(--emerald);
+    }
+
+    .step-dot.wrong {
+      background: var(--red);
+    }
+
+    .score-pill {
+      background: var(--amber-light);
+      color: #92400e;
+      border: 1px solid #fde68a;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 999px;
+    }
+
+    /* Kartu Soal Besar di Tengah */
+    .question-stage {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .question-card {
+      flex: 1;
+      min-height: 120px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    }
+
+    .q-counter-tag {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      background: var(--primary-soft);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .q-equation {
+      font-size: clamp(34px, 10vw, 48px);
+      font-weight: 900;
+      color: var(--text-main);
+      letter-spacing: 1px;
+      line-height: 1.15;
+    }
+
+    .q-equation span.q-mark {
+      color: var(--amber-dark);
+      background: var(--amber-light);
+      padding: 0 12px;
+      border-radius: 12px;
+      border: 2px dashed var(--amber);
+    }
+
+    .q-feedback {
+      margin-top: 10px;
+      min-height: 24px;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 999px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .q-feedback.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .q-feedback.is-correct {
+      background: var(--emerald-light);
+      color: var(--emerald-dark);
+    }
+
+    .q-feedback.is-wrong {
+      background: var(--red-light);
+      color: var(--red-dark);
+    }
+
+    /* Grid 2x2 Tombol Pilihan Ganda Besar */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .option-btn {
+      min-height: 66px;
+      border-radius: 16px;
+      border: 2.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-main);
+      font-size: 24px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 3px 0 var(--border);
+      transition: transform 0.1s ease, background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .option-btn:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-btn.opt-correct {
+      background: var(--emerald);
+      border-color: var(--emerald-dark);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    }
+
+    @keyframes shakeWrong {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+
+    .option-btn.opt-wrong {
+      background: var(--red);
+      border-color: var(--red-dark);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      animation: shakeWrong 0.38s ease-in-out;
+    }
+
+    .option-btn.opt-dim {
+      opacity: 0.45;
+    }
+
+    /* =====================================================================
+       TOAST NOTIFIKASI RINGAN (UNTUK LEVEL TERKUNCI)
+       ===================================================================== */
+    .mini-toast {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      background: #1e293b;
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-align: center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      z-index: 40;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+      animation: fadeUp 0.2s ease-out;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =====================================================================
+       MODAL HASIL TANTANGAN & PERAYAAN TAMAT
+       ===================================================================== */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 50;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .result-card {
+      width: 100%;
+      max-width: 360px;
+      background: var(--surface);
+      border-radius: 24px;
+      padding: 22px 18px 18px;
+      text-align: center;
+      box-shadow: 0 20px 44px rgba(15, 23, 42, 0.25);
+      animation: popScale 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes popScale {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .stars-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .result-trophy {
+      font-size: 44px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .result-heading {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .result-score-pill {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .result-score-pill.pass {
+      background: var(--emerald-light);
+      color: var(--emerald-dark);
+      border: 2px solid #6ee7b7;
+    }
+
+    .result-score-pill.retry {
+      background: var(--amber-light);
+      color: #b45309;
+      border: 2px solid #fcd34d;
+    }
+
+    .result-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .result-sub-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .secondary-btn {
+      padding: 11px 10px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border-strong);
+      background: #f8fafc;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .secondary-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Penyesuaian khusus layar pendek (misal 360x640) */
+    @media (max-height: 660px) {
+      .app-header {
+        padding: 6px 10px;
+        min-height: 46px;
+      }
+      .main-viewport {
+        padding: 8px 10px 10px;
+      }
+      .view-screen {
+        gap: 7px;
+      }
+      .fact-grid {
+        gap: 6px;
+      }
+      .concept-box {
+        padding: 6px 8px;
+        gap: 4px;
+      }
+      .dot-groups-wrap {
+        min-height: 22px;
+        gap: 6px;
+      }
+      .primary-cta-btn {
+        min-height: 44px;
+        padding: 10px 14px;
+        font-size: 13.5px;
+      }
+      .option-btn {
+        min-height: 56px;
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- =================================================================
+         HEADER MINIMALIS (BERADAPTASI SESUAI SESI)
+         ================================================================= -->
+    <header class="app-header">
+      <!-- Header Mode Menghafal -->
+      <div id="header-memorize-bar" class="header-bar">
+        <div class="brand-group">
+          <div class="brand-logo" aria-hidden="true">+</div>
+          <div>
+            <h1 class="brand-title">Game Penjumlahan</h1>
+            <div class="brand-sub">Matematika SD • Level 1–9</div>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button id="btn-level-picker" type="button" class="level-picker-btn" aria-label="Pilih Level">
+            Level 1 ▾
+          </button>
+          <button id="btn-help-memorize" type="button" class="header-icon-btn" aria-label="Petunjuk Sesi Menghafal" title="Petunjuk Sesi Menghafal">
+            ?
+          </button>
+          <button id="btn-sound" type="button" class="sound-btn" aria-label="Matikan atau nyalakan suara">
+            <!-- Ikon speaker diisi lewat JS -->
+          </button>
+        </div>
+      </div>
+
+      <!-- Header Mode Tantangan -->
+      <div id="header-challenge-bar" class="header-bar hidden">
+        <button id="btn-back-memorize" type="button" class="back-memorize-btn">← Hafalan</button>
+        <div id="chal-header-title" class="chal-header-title">Tantangan • Level 1</div>
+        <span id="chal-header-progress" class="level-badge">Soal 1 / 5</span>
+      </div>
+    </header>
+
+    <!-- =================================================================
+         VIEWPORT UTAMA
+         ================================================================= -->
+    <main class="main-viewport">
+      <!-- ===============================================================
+           HALAMAN 1: MODE HAFALAN (SESI MENGHAFAL)
+           =============================================================== -->
+      <section id="memorize-view" class="view-screen" aria-label="Sesi Menghafal">
+        <div class="memorize-toolbar">
+          <div class="table-heading">
+            <h2 id="mem-table-title" class="table-title">Hafalan • Level 1</h2>
+            <span id="mem-table-range" class="table-range">1 + 1 s.d. 1 + 9</span>
+          </div>
+
+          <button id="btn-toggle-hide" type="button" class="hide-toggle-btn" aria-pressed="false">
+            <span id="hide-btn-icon">👁️</span>
+            <span id="hide-btn-text">Sembunyikan Jawaban</span>
+          </button>
+        </div>
+
+        <!-- Visualisasi Progres Bar Waktu Menghafal 30 Detik -->
+        <div id="memorize-timer-box" class="timer-strip" aria-label="Sisa waktu menghafal">
+          <span id="timer-label" class="timer-label">⏱️ 30 dtk</span>
+          <div class="timer-track">
+            <div id="timer-fill" class="timer-fill" style="width: 100%;"></div>
+          </div>
+        </div>
+
+        <!-- Grid Kartu Penjumlahan (3x3) -->
+        <div id="fact-grid" class="fact-grid">
+          <!-- Kartu penjumlahan dirender oleh JS -->
+        </div>
+
+        <!-- Kotak Visualisasi Konsep Penggabungan Dua Kelompok Titik -->
+        <div class="concept-box" aria-live="polite">
+          <div class="concept-header">
+            <span class="concept-label">Visual Gabungan</span>
+            <span id="concept-sum-text" class="concept-sum-text">1 biru + 1 hijau = 2</span>
+          </div>
+          <div id="dot-groups-wrap" class="dot-groups-wrap">
+            <!-- Dua kelompok titik berwarna + tanda tambah dirender oleh JS -->
+          </div>
+        </div>
+
+        <!-- Tombol Aksi Utama -->
+        <button id="btn-start-challenge" type="button" class="primary-cta-btn amber-cta">
+          <span id="start-challenge-label">Mulai Tantangan Level 1</span>
+          <span>→</span>
+        </button>
+      </section>
+
+      <!-- ===============================================================
+           HALAMAN 2: MODE TANTANGAN (5 SOAL)
+           =============================================================== -->
+      <section id="challenge-view" class="view-screen hidden" aria-label="Mode Tantangan Level">
+        <div class="challenge-topbar">
+          <div id="progress-steps" class="progress-steps" aria-label="Progres 5 Soal">
+            <!-- 5 indikator langkah dirender oleh JS -->
+          </div>
+
+          <div id="challenge-score-pill" class="score-pill">★ 0</div>
+        </div>
+
+        <div class="question-stage">
+          <div class="question-card">
+            <div id="q-counter-tag" class="q-counter-tag">Soal 1 / 5</div>
+            <div id="q-equation" class="q-equation">
+              1 + 1 = <span class="q-mark">?</span>
+            </div>
+            <div id="q-feedback" class="q-feedback" role="status" aria-live="polite">
+              Hebat! Jawabanmu benar!
+            </div>
+          </div>
+
+          <div id="options-grid" class="options-grid">
+            <!-- 4 Tombol pilihan ganda 2x2 dirender oleh JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Toast Notifikasi Singkat -->
+      <div id="mini-toast" class="mini-toast hidden" role="status" aria-live="polite"></div>
+    </main>
+
+    <!-- =================================================================
+         POP-UP 1: SAMBUTAN AWAL ("GAME PENJUMLAHAN")
+         ================================================================= -->
+    <div id="welcome-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-heading">
+      <div class="result-card">
+        <div class="welcome-badge" aria-hidden="true">+</div>
+        <h2 id="welcome-heading" class="result-heading">Game Penjumlahan</h2>
+        <p class="result-desc">
+          Ayo taklukkan penjumlahan dari Level 1 sampai Level 9! Hafalkan kartunya dalam 30 detik, lalu jawab 5 soal tantangan di setiap level.
+        </p>
+        <button id="btn-welcome-start" type="button" class="primary-cta-btn">
+          <span>Mulai Bermain</span>
+          <span>▶</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- =================================================================
+         POP-UP 2: PETUNJUK SEDERHANA ("HAFALIN DULU YUK!")
+         ================================================================= -->
+    <div id="guide-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="guide-heading">
+      <div class="result-card">
+        <div class="guide-badge" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+        </div>
+        <h2 id="guide-heading" class="result-heading">Hafalin Dulu Yuk!</h2>
+        <p class="result-desc">
+          Kamu punya waktu <strong>30 detik</strong> untuk menghafal kartu penjumlahan. Ketuk kartu angka untuk melihat gambar titik gabungannya ya!
+        </p>
+        <button id="btn-guide-close" type="button" class="primary-cta-btn amber-cta">
+          <span>Mulai Menghafal! 👍</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- =================================================================
+         POP-UP KONFIRMASI WAKTU HABIS ("SUDAH SIAP?")
+         ================================================================= -->
+    <div id="ready-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="ready-heading">
+      <div class="result-card">
+        <div class="guide-badge" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <polyline points="12 7 12 12 15 14"></polyline>
+          </svg>
+        </div>
+        <h2 id="ready-heading" class="result-heading">SUDAH SIAP?</h2>
+        <p class="result-desc">
+          Waktu 30 detik sudah selesai. Yuk lanjut ke tantangan!
+        </p>
+        <div class="ready-actions">
+          <button id="btn-ready-no" type="button" class="secondary-btn">Belum, Sedikit Lagi</button>
+          <button id="btn-ready-yes" type="button" class="primary-cta-btn" style="min-height: 44px; padding: 10px 12px;">Ya</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================
+         POP-UP 3: PEMILIH LEVEL (LEVEL 1 S.D. LEVEL 9 + STATUS BINTANG)
+         ================================================================= -->
+    <div id="level-picker-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="picker-heading">
+      <div class="result-card">
+        <h2 id="picker-heading" class="result-heading">Pilih Level</h2>
+        <p class="result-desc" style="margin-bottom: 4px;">
+          Selesaikan tantangan tiap level penjumlahan untuk membuka level berikutnya.
+        </p>
+        <div id="level-grid-modal" class="level-grid-modal">
+          <!-- 9 Kotak Level dirender oleh JS -->
+        </div>
+        <button id="btn-close-picker" type="button" class="secondary-btn" style="width: 100%;">
+          Tutup
+        </button>
+      </div>
+    </div>
+
+    <!-- =================================================================
+         POP-UP 4: MODAL HASIL TANTANGAN & TRANSISI LEVEL
+         ================================================================= -->
+    <div id="result-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="result-heading">
+      <div class="result-card">
+        <div id="result-visual-top"></div>
+        <h3 id="result-heading" class="result-heading">Luar Biasa!</h3>
+        <div id="result-score-pill" class="result-score-pill pass">5 / 5 Benar!</div>
+        <p id="result-desc" class="result-desc">
+          Kamu hebat! Siap lanjut ke level berikutnya?
+        </p>
+
+        <div id="result-actions" class="result-actions">
+          <!-- Tombol aksi dinamis dirender oleh JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* =====================================================================
+         MESIN EFEK SUARA SINTETIS (WEB AUDIO API - TANPA FILE EKSTERNAL)
+         ===================================================================== */
+      const SoundFX = {
+        ctx: null,
+        muted: false,
+
+        ensureContext() {
+          try {
+            if (!this.ctx) {
+              const AudioCtx = window.AudioContext || window.webkitAudioContext;
+              if (AudioCtx) {
+                this.ctx = new AudioCtx();
+              }
+            }
+            if (this.ctx && this.ctx.state === 'suspended') {
+              const resumePromise = this.ctx.resume();
+              if (resumePromise && typeof resumePromise.catch === 'function') {
+                resumePromise.catch(function () {});
+              }
+            }
+          } catch (e) {}
+        },
+
+        playTone(freq, type, duration, delay, gainVal) {
+          if (this.muted) return;
+          try {
+            this.ensureContext();
+            if (!this.ctx) return;
+
+            const now = this.ctx.currentTime + (delay || 0);
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            osc.type = type || 'sine';
+            osc.frequency.setValueAtTime(freq, now);
+
+            const peak = gainVal || 0.14;
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.exponentialRampToValueAtTime(peak, now + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+
+            osc.start(now);
+            osc.stop(now + duration + 0.02);
+          } catch (e) {}
+        },
+
+        tap() {
+          this.playTone(540, 'sine', 0.075, 0, 0.11);
+        },
+
+        correct() {
+          this.playTone(523.25, 'triangle', 0.13, 0, 0.15);
+          this.playTone(659.25, 'triangle', 0.22, 0.09, 0.16);
+        },
+
+        wrong() {
+          this.playTone(230, 'sawtooth', 0.14, 0, 0.08);
+          this.playTone(190, 'sawtooth', 0.2, 0.11, 0.08);
+        },
+
+        fanfare() {
+          this.playTone(523.25, 'triangle', 0.14, 0, 0.15);
+          this.playTone(659.25, 'triangle', 0.14, 0.1, 0.15);
+          this.playTone(783.99, 'triangle', 0.16, 0.2, 0.16);
+          this.playTone(1046.5, 'triangle', 0.36, 0.31, 0.18);
+        }
+      };
+
+      /* =====================================================================
+         STATE APLIKASI & PENYIMPANAN LOKAL AMAN
+         ===================================================================== */
+      const STORAGE_KEY = 'game_penjumlahan_progress_v1';
+
+      const state = {
+        currentLevel: 1,         // Bilangan pertama 1..9
+        maxUnlockedLevel: 1,     // 1..9
+        completedLevels: [],     // array nomor level yang sudah lulus (>= 4/5)
+        levelStars: {},          // peta nomor level -> jumlah bintang tertinggi (0..3)
+        screen: 'memorize',      // 'memorize' | 'challenge'
+
+        // State Mode Hafalan
+        hideAnswers: false,
+        peekedKeys: new Set(),
+        selectedAddend: 1,       // Angka kedua 1..9
+
+        // State Mode Tantangan
+        questions: [],
+        qIndex: 0,
+        score: 0,
+        stepHistory: [],         // array status tiap soal: 'pending' | 'correct' | 'wrong'
+        answeringLocked: false,
+        advanceTimer: null,
+        toastTimer: null,
+
+        // State Timer 30 Detik Menghafal
+        memorizeDurationMs: 30000,
+        memorizeRemainingMs: 30000,
+        memorizeInterval: null,
+        memorizePaused: false
+      };
+
+      function loadProgress() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed.maxUnlockedLevel === 'number') {
+            state.maxUnlockedLevel = Math.min(9, Math.max(1, parsed.maxUnlockedLevel));
+          }
+          if (parsed && Array.isArray(parsed.completedLevels)) {
+            state.completedLevels = parsed.completedLevels.filter((n) => n >= 1 && n <= 9);
+          }
+          if (parsed && parsed.levelStars && typeof parsed.levelStars === 'object') {
+            state.levelStars = parsed.levelStars;
+          }
+          if (parsed && typeof parsed.currentLevel === 'number') {
+            const lvl = Math.min(9, Math.max(1, parsed.currentLevel));
+            state.currentLevel = lvl <= state.maxUnlockedLevel ? lvl : state.maxUnlockedLevel;
+            state.selectedAddend = 1;
+          }
+        } catch (e) {}
+      }
+
+      function saveProgress() {
+        try {
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+              currentLevel: state.currentLevel,
+              maxUnlockedLevel: state.maxUnlockedLevel,
+              completedLevels: state.completedLevels,
+              levelStars: state.levelStars
+            })
+          );
+        } catch (e) {}
+      }
+
+      /* =====================================================================
+         REFERENSI ELEMEN DOM
+         ===================================================================== */
+      const headerMemorizeBar = document.getElementById('header-memorize-bar');
+      const headerChallengeBar = document.getElementById('header-challenge-bar');
+      const btnLevelPicker = document.getElementById('btn-level-picker');
+      const btnHelpMemorize = document.getElementById('btn-help-memorize');
+      const btnSound = document.getElementById('btn-sound');
+      const chalHeaderTitle = document.getElementById('chal-header-title');
+      const chalHeaderProgress = document.getElementById('chal-header-progress');
+
+      const memorizeView = document.getElementById('memorize-view');
+      const memTableTitle = document.getElementById('mem-table-title');
+      const memTableRange = document.getElementById('mem-table-range');
+      const btnToggleHide = document.getElementById('btn-toggle-hide');
+      const hideBtnIcon = document.getElementById('hide-btn-icon');
+      const hideBtnText = document.getElementById('hide-btn-text');
+      const timerLabel = document.getElementById('timer-label');
+      const timerFill = document.getElementById('timer-fill');
+      const factGrid = document.getElementById('fact-grid');
+      const conceptSumText = document.getElementById('concept-sum-text');
+      const dotGroupsWrap = document.getElementById('dot-groups-wrap');
+      const btnStartChallenge = document.getElementById('btn-start-challenge');
+      const startChallengeLabel = document.getElementById('start-challenge-label');
+
+      const challengeView = document.getElementById('challenge-view');
+      const btnBackMemorize = document.getElementById('btn-back-memorize');
+      const progressSteps = document.getElementById('progress-steps');
+      const challengeScorePill = document.getElementById('challenge-score-pill');
+      const qCounterTag = document.getElementById('q-counter-tag');
+      const qEquation = document.getElementById('q-equation');
+      const qFeedback = document.getElementById('q-feedback');
+      const optionsGrid = document.getElementById('options-grid');
+
+      const miniToast = document.getElementById('mini-toast');
+      const welcomeModal = document.getElementById('welcome-modal');
+      const btnWelcomeStart = document.getElementById('btn-welcome-start');
+      const guideModal = document.getElementById('guide-modal');
+      const btnGuideClose = document.getElementById('btn-guide-close');
+      const readyModal = document.getElementById('ready-modal');
+      const btnReadyNo = document.getElementById('btn-ready-no');
+      const btnReadyYes = document.getElementById('btn-ready-yes');
+      const levelPickerModal = document.getElementById('level-picker-modal');
+      const levelGridModal = document.getElementById('level-grid-modal');
+      const btnClosePicker = document.getElementById('btn-close-picker');
+
+      const resultModal = document.getElementById('result-modal');
+      const resultVisualTop = document.getElementById('result-visual-top');
+      const resultHeading = document.getElementById('result-heading');
+      const resultScorePill = document.getElementById('result-score-pill');
+      const resultDesc = document.getElementById('result-desc');
+      const resultActions = document.getElementById('result-actions');
+
+      /* =====================================================================
+         UTILITAS & KONTROL TIMER 30 DETIK MENGHAFAL
+         ===================================================================== */
+      function shuffle(arr) {
+        const copy = arr.slice();
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      }
+
+      function getAddendsForLevel() {
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      }
+
+      function clearAdvanceTimer() {
+        if (state.advanceTimer) {
+          clearTimeout(state.advanceTimer);
+          state.advanceTimer = null;
+        }
+      }
+
+      function showToast(msg) {
+        if (state.toastTimer) clearTimeout(state.toastTimer);
+        miniToast.textContent = msg;
+        miniToast.classList.remove('hidden');
+        state.toastTimer = setTimeout(() => {
+          miniToast.classList.add('hidden');
+        }, 2000);
+      }
+
+      function stopMemorizeTimer() {
+        if (state.memorizeInterval) {
+          clearInterval(state.memorizeInterval);
+          state.memorizeInterval = null;
+        }
+      }
+
+      function updateTimerDisplay() {
+        const ratio = Math.max(0, Math.min(1, state.memorizeRemainingMs / state.memorizeDurationMs));
+        const secLeft = Math.ceil(state.memorizeRemainingMs / 1000);
+        timerFill.style.width = `${(ratio * 100).toFixed(1)}%`;
+        timerLabel.textContent = `⏱️ ${secLeft} dtk`;
+
+        const isWarning = secLeft <= 8;
+        timerLabel.classList.toggle('warning', isWarning);
+        timerFill.classList.toggle('warning', isWarning);
+      }
+
+      function startMemorizeTimer(resetDuration) {
+        stopMemorizeTimer();
+        readyModal.classList.add('hidden');
+        if (resetDuration) {
+          state.memorizeRemainingMs = state.memorizeDurationMs;
+        }
+        state.memorizePaused = false;
+        updateTimerDisplay();
+
+        state.memorizeInterval = setInterval(() => {
+          if (state.screen !== 'memorize' || state.memorizePaused) return;
+          state.memorizeRemainingMs -= 100;
+
+          if (state.memorizeRemainingMs <= 0) {
+            state.memorizeRemainingMs = 0;
+            updateTimerDisplay();
+            stopMemorizeTimer();
+            SoundFX.tap();
+            readyModal.classList.remove('hidden');
+          } else {
+            updateTimerDisplay();
+          }
+        }, 100);
+      }
+
+      /* =====================================================================
+         RENDER HEADER & MODAL PEMILIH LEVEL 1–9
+         ===================================================================== */
+      function renderSoundButton() {
+        btnSound.classList.toggle('muted', SoundFX.muted);
+        btnSound.innerHTML = SoundFX.muted
+          ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`
+          : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>`;
+      }
+
+      function renderHeader() {
+        const isChallenge = state.screen === 'challenge';
+        headerMemorizeBar.classList.toggle('hidden', isChallenge);
+        headerChallengeBar.classList.toggle('hidden', !isChallenge);
+
+        if (isChallenge) {
+          chalHeaderTitle.textContent = `Tantangan • Level ${state.currentLevel}`;
+          chalHeaderProgress.textContent = `Soal ${state.qIndex + 1} / 5`;
+        } else {
+          btnLevelPicker.textContent = `Level ${state.currentLevel} ▾`;
+          renderSoundButton();
+        }
+      }
+
+      function buildMiniStars(count) {
+        return [0, 1, 2]
+          .map((i) => {
+            const color = i < count ? '#f59e0b' : '#cbd5e1';
+            return `<svg width="13" height="13" viewBox="0 0 24 24" fill="${color}" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+          })
+          .join('');
+      }
+
+      function openLevelPickerModal() {
+        state.memorizePaused = true;
+        const tiles = [];
+        for (let lvl = 1; lvl <= 9; lvl++) {
+          const isCompleted = state.completedLevels.includes(lvl);
+          const isActive = lvl === state.currentLevel;
+          const isUnlocked = lvl <= state.maxUnlockedLevel;
+          const stars = state.levelStars[lvl] || (isCompleted ? 2 : 0);
+
+          let cls = 'level-tile';
+          if (isActive) {
+            cls += ' active';
+          } else if (isCompleted) {
+            cls += ' completed';
+          } else if (isUnlocked) {
+            cls += ' unlocked';
+          } else {
+            cls += ' locked';
+          }
+
+          const statusHtml = isUnlocked
+            ? buildMiniStars(stars)
+            : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
+
+          tiles.push(`
+            <button type="button" class="${cls}" data-level="${lvl}" aria-label="Level ${lvl}${isUnlocked ? '' : ' terkunci'}">
+              <span class="level-tile-name">Level ${lvl}</span>
+              <span class="level-tile-stars">${statusHtml}</span>
+            </button>
+          `);
+        }
+
+        levelGridModal.innerHTML = tiles.join('');
+
+        levelGridModal.querySelectorAll('.level-tile').forEach((tile) => {
+          tile.addEventListener('click', () => {
+            const targetLvl = Number(tile.dataset.level);
+            if (targetLvl > state.maxUnlockedLevel) {
+              SoundFX.wrong();
+              showToast(`Selesaikan Level ${state.maxUnlockedLevel} dulu ya!`);
+              return;
+            }
+            SoundFX.tap();
+            levelPickerModal.classList.add('hidden');
+            selectLevel(targetLvl, true);
+          });
+        });
+
+        levelPickerModal.classList.remove('hidden');
+      }
+
+      function selectLevel(level, bounceFirstCard) {
+        clearAdvanceTimer();
+        resultModal.classList.add('hidden');
+        state.currentLevel = level;
+        state.peekedKeys.clear();
+        state.selectedAddend = 1;
+        saveProgress();
+        openMemorizeView(bounceFirstCard, true);
+      }
+
+      /* =====================================================================
+         HALAMAN 1: RENDER MODE HAFALAN (SESI MENGHAFAL PENJUMLAHAN)
+         ===================================================================== */
+      function openMemorizeView(animateSelected, resetTimer) {
+        clearAdvanceTimer();
+        state.screen = 'memorize';
+        memorizeView.classList.remove('hidden');
+        challengeView.classList.add('hidden');
+
+        renderHeader();
+
+        const a = state.currentLevel;
+        const addendsB = getAddendsForLevel();
+
+        memTableTitle.textContent = `Hafalan • Level ${a}`;
+        memTableRange.textContent = `${a} + 1 s.d. ${a} + 9`;
+        startChallengeLabel.textContent = `Mulai Tantangan Level ${a}`;
+
+        btnToggleHide.classList.toggle('active', state.hideAnswers);
+        btnToggleHide.setAttribute('aria-pressed', String(state.hideAnswers));
+        hideBtnIcon.textContent = state.hideAnswers ? '🙈' : '👁️';
+        hideBtnText.textContent = state.hideAnswers ? 'Tampilkan Jawaban' : 'Sembunyikan Jawaban';
+
+        factGrid.innerHTML = addendsB
+          .map((b) => {
+            const sum = a + b;
+            const key = `${a}+${b}`;
+            const isSelected = state.selectedAddend === b;
+            const isConcealed = state.hideAnswers && !state.peekedKeys.has(key);
+
+            return `
+              <button
+                type="button"
+                class="fact-card ${isSelected ? 'selected' : ''}"
+                data-b="${b}"
+                aria-label="${a} tambah ${b} sama dengan ${isConcealed ? 'tersembunyi' : sum}"
+              >
+                <div class="fact-expr">
+                  <span>${a}</span>
+                  <span class="fact-op">+</span>
+                  <span>${b}</span>
+                  <span>=</span>
+                  ${
+                    isConcealed
+                      ? `<span class="fact-ans concealed">?</span>`
+                      : `<span class="fact-ans">${sum}</span>`
+                  }
+                </div>
+              </button>
+            `;
+          })
+          .join('');
+
+        factGrid.querySelectorAll('.fact-card').forEach((card) => {
+          card.addEventListener('click', () => {
+            const b = Number(card.dataset.b);
+            const key = `${a}+${b}`;
+            SoundFX.tap();
+
+            state.selectedAddend = b;
+            if (state.hideAnswers) {
+              if (state.peekedKeys.has(key)) {
+                state.peekedKeys.delete(key);
+              } else {
+                state.peekedKeys.add(key);
+              }
+            }
+
+            openMemorizeView(true, false);
+          });
+        });
+
+        if (animateSelected) {
+          const activeCard = factGrid.querySelector(`.fact-card[data-b="${state.selectedAddend}"]`);
+          if (activeCard) {
+            activeCard.classList.remove('bounce');
+            void activeCard.offsetWidth;
+            activeCard.classList.add('bounce');
+          }
+        }
+
+        renderConceptBox(a, state.selectedAddend);
+
+        if (resetTimer) {
+          startMemorizeTimer(true);
+        }
+      }
+
+      function renderConceptBox(a, b) {
+        const total = a + b;
+        conceptSumText.textContent = `${a} biru + ${b} hijau = ${total}`;
+
+        const dotsA = Array.from({ length: a }, () => '<span class="concept-dot"></span>').join('');
+        const dotsB = Array.from({ length: b }, () => '<span class="concept-dot"></span>').join('');
+
+        dotGroupsWrap.innerHTML = `
+          <div class="dot-cluster group-a" title="Kelompok pertama: ${a} titik">${dotsA}</div>
+          <span class="concept-plus-badge" aria-hidden="true">+</span>
+          <div class="dot-cluster group-b" title="Kelompok kedua: ${b} titik">${dotsB}</div>
+        `;
+      }
+
+      /* =====================================================================
+         HALAMAN 2: LOGIKA & RENDER MODE TANTANGAN (5 SOAL UNIK)
+         ===================================================================== */
+      function generateSmartOptions(a, b) {
+        const correct = a + b;
+        const candidates = new Set();
+
+        const nearValues = [
+          correct + 1,
+          correct - 1,
+          correct + 2,
+          correct - 2,
+          correct + 3,
+          Math.abs(a - b),
+          a * b
+        ];
+
+        for (const val of shuffle(nearValues)) {
+          if (val >= 1 && val <= 25 && val !== correct && !candidates.has(val)) {
+            candidates.add(val);
+            if (candidates.size === 3) break;
+          }
+        }
+
+        let fallback = 1;
+        while (candidates.size < 3) {
+          if (fallback !== correct) candidates.add(fallback);
+          fallback++;
+        }
+
+        return shuffle([correct, ...Array.from(candidates)]);
+      }
+
+      function startChallengeMode() {
+        stopMemorizeTimer();
+        clearAdvanceTimer();
+        readyModal.classList.add('hidden');
+        resultModal.classList.add('hidden');
+        state.screen = 'challenge';
+
+        const a = state.currentLevel;
+        const pool = getAddendsForLevel();
+        const chosenB = shuffle(pool).slice(0, 5);
+
+        state.questions = chosenB.map((b) => ({
+          a: a,
+          b: b,
+          answer: a + b,
+          options: generateSmartOptions(a, b)
+        }));
+
+        state.qIndex = 0;
+        state.score = 0;
+        state.stepHistory = ['current', 'pending', 'pending', 'pending', 'pending'];
+        state.answeringLocked = false;
+
+        memorizeView.classList.add('hidden');
+        challengeView.classList.remove('hidden');
+
+        renderHeader();
+        renderChallengeQuestion();
+      }
+
+      function renderChallengeQuestion() {
+        const q = state.questions[state.qIndex];
+        state.answeringLocked = false;
+        renderHeader();
+
+        progressSteps.innerHTML = state.stepHistory
+          .map((status) => `<span class="step-dot ${status}"></span>`)
+          .join('');
+
+        challengeScorePill.textContent = `★ ${state.score}`;
+        qCounterTag.textContent = `Soal ${state.qIndex + 1} / 5`;
+        qEquation.innerHTML = `${q.a} + ${q.b} = <span class="q-mark">?</span>`;
+
+        qFeedback.className = 'q-feedback';
+        qFeedback.textContent = '';
+
+        optionsGrid.innerHTML = q.options
+          .map(
+            (val) => `
+              <button type="button" class="option-btn" data-val="${val}">
+                ${val}
+              </button>
+            `
+          )
+          .join('');
+
+        optionsGrid.querySelectorAll('.option-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            if (state.answeringLocked) return;
+            handleAnswerSelection(Number(btn.dataset.val), btn);
+          });
+        });
+      }
+
+      function handleAnswerSelection(chosenVal, chosenBtn) {
+        state.answeringLocked = true;
+        const q = state.questions[state.qIndex];
+        const isCorrect = chosenVal === q.answer;
+
+        qEquation.innerHTML = `${q.a} + ${q.b} = <span style="color:var(--emerald-dark)">${q.answer}</span>`;
+
+        const allBtns = optionsGrid.querySelectorAll('.option-btn');
+        allBtns.forEach((btn) => {
+          btn.disabled = true;
+          const val = Number(btn.dataset.val);
+          if (val === q.answer) {
+            btn.classList.add('opt-correct');
+          } else if (btn === chosenBtn && !isCorrect) {
+            btn.classList.add('opt-wrong');
+          } else {
+            btn.classList.add('opt-dim');
+          }
+        });
+
+        if (isCorrect) {
+          SoundFX.correct();
+          state.score += 1;
+          state.stepHistory[state.qIndex] = 'correct';
+          challengeScorePill.textContent = `★ ${state.score}`;
+
+          const praises = [
+            'Hebat! Jawabanmu benar!',
+            'Keren! Penjumlahannya tepat!',
+            'Pintar! Terus pertahankan!',
+            'Mantap! Cepat dan tepat!'
+          ];
+          qFeedback.textContent = praises[state.qIndex % praises.length];
+          qFeedback.className = 'q-feedback visible is-correct';
+        } else {
+          SoundFX.wrong();
+          state.stepHistory[state.qIndex] = 'wrong';
+          qFeedback.textContent = `Ups, jawaban benar: ${q.answer}`;
+          qFeedback.className = 'q-feedback visible is-wrong';
+        }
+
+        progressSteps.innerHTML = state.stepHistory
+          .map((status) => `<span class="step-dot ${status}"></span>`)
+          .join('');
+
+        state.advanceTimer = setTimeout(() => {
+          if (state.screen !== 'challenge') return;
+          if (state.qIndex < 4) {
+            state.qIndex += 1;
+            state.stepHistory[state.qIndex] = 'current';
+            renderChallengeQuestion();
+          } else {
+            finishChallengeLevel();
+          }
+        }, 1100);
+      }
+
+      /* =====================================================================
+         LAYAR HASIL TANTANGAN & TRANSISI OTOMATIS KE LEVEL BERIKUTNYA
+         ===================================================================== */
+      function buildStarSvg(filled) {
+        const color = filled ? '#f59e0b' : '#e2e8f0';
+        return `<svg width="38" height="38" viewBox="0 0 24 24" fill="${color}" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+      }
+
+      function finishChallengeLevel() {
+        const lvl = state.currentLevel;
+        const score = state.score;
+        const passed = score >= 4;
+        const earnedStars = score === 5 ? 3 : score === 4 ? 2 : score >= 2 ? 1 : 0;
+
+        if (!state.levelStars[lvl] || earnedStars > state.levelStars[lvl]) {
+          state.levelStars[lvl] = earnedStars;
+        }
+
+        if (passed) {
+          SoundFX.fanfare();
+          if (!state.completedLevels.includes(lvl)) {
+            state.completedLevels.push(lvl);
+          }
+          if (lvl < 9 && state.maxUnlockedLevel < lvl + 1) {
+            state.maxUnlockedLevel = lvl + 1;
+          }
+          saveProgress();
+          renderHeader();
+        } else {
+          SoundFX.wrong();
+          saveProgress();
+        }
+
+        if (passed && lvl === 9) {
+          resultVisualTop.innerHTML = `<div class="result-trophy">🏆🎉</div>`;
+          resultHeading.textContent = 'Selamat! Tamat Level 1–Level 9!';
+          resultScorePill.textContent = `${score} / 5 Benar!`;
+          resultScorePill.className = 'result-score-pill pass';
+          resultDesc.textContent =
+            'Luar biasa! Kamu sudah menaklukkan semua tantangan penjumlahan dari Level 1 sampai Level 9!';
+
+          resultActions.innerHTML = `
+            <button id="btn-res-restart-all" type="button" class="primary-cta-btn">
+              Mulai Ulang dari Level 1
+            </button>
+            <div class="result-sub-actions">
+              <button id="btn-res-memorize" type="button" class="secondary-btn">Hafalkan Ulang Level 9</button>
+              <button id="btn-res-retry" type="button" class="secondary-btn">Ulangi Tantangan</button>
+            </div>
+          `;
+
+          document.getElementById('btn-res-restart-all').addEventListener('click', () => {
+            SoundFX.tap();
+            state.currentLevel = 1;
+            state.maxUnlockedLevel = 1;
+            state.completedLevels = [];
+            state.levelStars = {};
+            saveProgress();
+            selectLevel(1, true);
+          });
+        } else if (passed) {
+          const starCount = score === 5 ? 3 : 2;
+          resultVisualTop.innerHTML = `<div class="stars-container">${[0, 1, 2]
+            .map((i) => buildStarSvg(i < starCount))
+            .join('')}</div>`;
+          resultHeading.textContent = score === 5 ? 'Sempurna!' : 'Hebat Sekali!';
+          resultScorePill.textContent = `${score} / 5 Benar!`;
+          resultScorePill.className = 'result-score-pill pass';
+          resultDesc.textContent = `Kamu menguasai penjumlahan Level ${lvl}! Ayo lanjut ke Sesi Menghafal Level ${lvl + 1}.`;
+
+          resultActions.innerHTML = `
+            <button id="btn-res-next-level" type="button" class="primary-cta-btn">
+              <span>Lanjut Level ${lvl + 1}</span>
+              <span>→</span>
+            </button>
+            <div class="result-sub-actions">
+              <button id="btn-res-memorize" type="button" class="secondary-btn">Hafalkan Ulang Level ${lvl}</button>
+              <button id="btn-res-retry" type="button" class="secondary-btn">Ulangi Tantangan</button>
+            </div>
+          `;
+
+          document.getElementById('btn-res-next-level').addEventListener('click', () => {
+            SoundFX.tap();
+            selectLevel(lvl + 1, true);
+          });
+        } else {
+          resultVisualTop.innerHTML = `<div class="stars-container">${[0, 1, 2]
+            .map((i) => buildStarSvg(i < 1))
+            .join('')}</div>`;
+          resultHeading.textContent = 'Tetap Semangat!';
+          resultScorePill.textContent = `${score} / 5 Benar`;
+          resultScorePill.className = 'result-score-pill retry';
+          resultDesc.textContent = `Butuh minimal 4 jawaban benar untuk membuka Level ${
+            lvl < 9 ? lvl + 1 : 'berikutnya'
+          }. Yuk coba lagi!`;
+
+          resultActions.innerHTML = `
+            <button id="btn-res-memorize" type="button" class="primary-cta-btn amber-cta">
+              Hafalkan Ulang Level ${lvl}
+            </button>
+            <button id="btn-res-retry" type="button" class="secondary-btn" style="width:100%">
+              Ulangi Tantangan
+            </button>
+          `;
+        }
+
+        const btnMem = document.getElementById('btn-res-memorize');
+        if (btnMem) {
+          btnMem.addEventListener('click', () => {
+            SoundFX.tap();
+            resultModal.classList.add('hidden');
+            openMemorizeView(true, true);
+          });
+        }
+
+        const btnRetry = document.getElementById('btn-res-retry');
+        if (btnRetry) {
+          btnRetry.addEventListener('click', () => {
+            SoundFX.tap();
+            startChallengeMode();
+          });
+        }
+
+        resultModal.classList.remove('hidden');
+      }
+
+      /* =====================================================================
+         EVENT LISTENERS & INISIALISASI APLIKASI
+         ===================================================================== */
+      btnWelcomeStart.addEventListener('click', () => {
+        SoundFX.ensureContext();
+        SoundFX.correct();
+        welcomeModal.classList.add('hidden');
+        guideModal.classList.remove('hidden');
+      });
+
+      btnGuideClose.addEventListener('click', () => {
+        SoundFX.tap();
+        guideModal.classList.add('hidden');
+        if (state.memorizeInterval) {
+          state.memorizePaused = false;
+        } else {
+          openMemorizeView(true, true);
+        }
+      });
+
+      btnHelpMemorize.addEventListener('click', () => {
+        SoundFX.tap();
+        state.memorizePaused = true;
+        guideModal.classList.remove('hidden');
+      });
+
+      btnReadyNo.addEventListener('click', () => {
+        SoundFX.tap();
+        readyModal.classList.add('hidden');
+        openMemorizeView(true, true);
+      });
+
+      btnReadyYes.addEventListener('click', () => {
+        SoundFX.tap();
+        readyModal.classList.add('hidden');
+        startChallengeMode();
+      });
+
+      btnLevelPicker.addEventListener('click', () => {
+        SoundFX.tap();
+        openLevelPickerModal();
+      });
+
+      btnClosePicker.addEventListener('click', () => {
+        SoundFX.tap();
+        levelPickerModal.classList.add('hidden');
+        state.memorizePaused = false;
+      });
+
+      btnSound.addEventListener('click', () => {
+        SoundFX.muted = !SoundFX.muted;
+        renderSoundButton();
+        if (!SoundFX.muted) SoundFX.tap();
+      });
+
+      btnToggleHide.addEventListener('click', () => {
+        SoundFX.tap();
+        state.hideAnswers = !state.hideAnswers;
+        state.peekedKeys.clear();
+        openMemorizeView(false, false);
+      });
+
+      btnStartChallenge.addEventListener('click', () => {
+        SoundFX.tap();
+        startChallengeMode();
+      });
+
+      btnBackMemorize.addEventListener('click', () => {
+        SoundFX.tap();
+        openMemorizeView(false, true);
+      });
+
+      // Muat progres tersimpan & siapkan Sesi Menghafal di balik Pop-Up Awal "Game Penjumlahan"
+      loadProgress();
+      openMemorizeView(false, false);
+      updateTimerDisplay();
+    })();
+  </script>
+</body>
+</html>
